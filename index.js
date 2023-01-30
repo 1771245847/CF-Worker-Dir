@@ -31,7 +31,7 @@
 </body>
 ${body}
 <center>
-  <p><a href="https://github.com/1771245847/Short-URL"><img src="https://raw.githubusercontent.com/1771245847/Short-URL/main/github.png" style="width:50px;"> </a></p>
+  <p><a href="https://github.com/1771245847/Short-URL"><img src="https://raw.githubusercontent.com/1771245847/Short-URL/master/github.png" style="width:50px;"> </a></p>
 <center>
 </html>`.trim(), {
           status: 200,
