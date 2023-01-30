@@ -30,8 +30,4 @@ Cloudflare Worker平台上的云函数程序
 
 大功告成
 
-贡献：
-
-Closty
-
-项目开源
+开源
