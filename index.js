@@ -2,11 +2,9 @@
  *  自定义网站配置 
  */
 const config = {
-  title: "自定义导航",                 //write your website title
+  title: "残月导航",                 //write your website title
   subtitle: "Cloudflare Workers Dir", //write your website subtitle
   logo_icon: "sitemap",               //select your logo by semantic-ui icon (you can get more msg in:https://semantic-ui.com/elements/icon.html)
-  hitokoto: true,                     //use hitokoto or not
-  search:true,                        //enable search function
   search_engine:[                     //choose search engine which you use
     {
       name:"百 度",
@@ -27,13 +25,13 @@ const config = {
   ],
   selling_ads: true,                  //Selling your domain or not.(turning on may be helpful for selling this domain by showing some ads.)
   sell_info:{
-    domain:"example.com",
+    domain:"qq.com",
     price:500,                        //domain price
     mon_unit:"yen sign",              //monetary unit 
     contact:[                         //how to contact you
       {
         type:"envelope",               //contact type ("weixin","qq","telegram plane","envelope" or "phone")
-        content:"info@example.com"
+        content:"1771245847@qq.com"
       }
     ]                        
   },
@@ -74,7 +72,7 @@ const config = {
           desc:"程序员集散地"
         },
         {
-          url:"https://runoob.com/",
+          url:"https://www.runoob.com/",
           name:"菜鸟教程",
           desc:"程序员集散地"
         },
@@ -106,19 +104,6 @@ addEventListener('fetch', event => {
   return event.respondWith(handleRequest(event.request))
 })
 
-/*通过分析链接 实时获取favicon
-* @url 需要分析的Url地址
-*/
-function getFavicon(url){
-  if(url.match(/https{0,1}:\/\//)){
-    //return "https://ui-avatars.com/api/?bold=true&size=36&background=0D8ABC&color=fff&rounded=true&name=" + url.split('//')[1];
-    return "https://icon.occ.hk/get.php?url=" + url;
-  }else{
-    //return "https://ui-avatars.com/api/?bold=true&size=36&background=0D8ABC&color=fff&rounded=true&name=" + url;
-    return "https://icon.occ.hk/get.php?url=http://" + url;
-  } 
-}
-
 /** Render Functions
  *  渲染模块函数
  */
@@ -141,12 +126,12 @@ function renderHeader(){
     }
   }).join(""))
   var input = el('div',['class="ui left corner labeled right icon fluid large input"'],el('div',['class="ui left corner label"'],el('img',['id="search-fav"','class="left floated avatar ui image"','src="https://www.baidu.com/favicon.ico"'],"")) + el('input',['id="searchinput"','type="search"','placeholder="搜索你想要知道的……"','autocomplete="off"'],"") + el('i',['class="inverted circular search link icon"'],""));
-  return el('header',[],el('div',['id="head"','class="ui inverted vertical masthead center aligned segment"'],(config.hitokoto ? el('div',['id="nav"','class="ui container"'],nav) : "") + el('div',['id="title"','class="ui text container"'],title + (config.search ? input + menu :"") + `${config.selling_ads ? '<div><a id="menubtn" class="red ui icon inverted button"><i class="heart icon"></i> 喜欢此域名 </a></div>' : ''}`)))
+  return el('header',[],el('div',['id="head"','class="ui inverted vertical masthead center aligned segment"'],el('div',['id="nav"','class="ui container"'],nav) + el('div',['id="title"','class="ui text container"'],title + input + menu + `${config.selling_ads ? '<a id="menubtn" class="red ui icon inverted button"><i class="heart icon"></i> 喜欢此域名 </a>' : ''}`)))
 }
 
 function renderMain() {
   var main = config.lists.map((item) => {
-    const card = (url,name,desc)=> el('a',['class="card"',`href=${url}`,'target="_blank"'],el('div',['class="content"'],el('img',['class="left floated avatar ui image"',`src=${getFavicon(url)}`],"") + el('div',['class="header"'],name) + el('div',['class="meta"'],desc)));
+    const card = (url,name,desc)=> el('a',['class="card"',`href=${url}`,'target="_blank"'],el('div',['class="content"'],el('img',['class="left floated mini ui image"',`src=${getFavicon(url)}`],"") + el('div',['class="header"'],name) + el('div',['class="meta"'],desc)));
     const divider = el('h4',['class="ui horizontal divider header"'],el('i',[`class="${item.icon} icon"`],"")+item.name);
 
     var content = el('div',['class="ui four stackable cards"'],item.list.map((link) =>{
@@ -155,7 +140,7 @@ function renderMain() {
 
     return el('div',['class="ui basic segment"'],divider + content);
   }).join("");
-  
+
   return el('main',[],el('div',['class="ui container"'],main));
 }
 
@@ -174,6 +159,18 @@ function renderSeller() {
   return el('div',['id="seller"','class="ui basic modal"'],title + content + action);
 }
 
+/*通过分析链接 实时获取favicon
+* @url 需要分析的Url地址
+*/
+function getFavicon(url){
+  if(url.match(/https{0,1}:\/\//)){
+    return "https://ui-avatars.com/api/?bold=true&size=36&background=0D8ABC&color=fff&rounded=true&name=" + url.split('//')[1];
+  }else{
+    return "https://ui-avatars.com/api/?bold=true&size=36&background=0D8ABC&color=fff&rounded=true&name=" + url;
+  }
+
+}
+
 function renderHTML(index,seller) {
   return `<!DOCTYPE html>
   <html lang="en">
@@ -183,7 +180,7 @@ function renderHTML(index,seller) {
       <meta http-equiv="X-UA-Compatible" content="ie=edge">
       <title>${config.title} - ${config.subtitle}</title>
       <link href="https://cdn.jsdelivr.net/npm/semantic-ui-css@2.4.1/semantic.min.css" rel="stylesheet">
-      <link href="https://cdn.jsdelivr.net/gh/sleepwood/cf-worker-dir@0.1.1/style.min.css" rel="stylesheet">
+      <link href="https://cdn.jsdelivr.net/gh/sleepwood/cf-worker-dir@master/style.css" rel="stylesheet">
       <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/semantic-ui-css@2.4.1/semantic.min.js"></script>
   </head>
@@ -192,7 +189,7 @@ function renderHTML(index,seller) {
     ${config.selling_ads ? seller : ''}
     <script src="https://v1.hitokoto.cn/?encode=js&select=%23hitokoto" defer></script>
     <script>
-      $('#sengine a').on('click', function (e) {
+      $('#sengine a').on('click', (e) => {
         $('#sengine a.active').toggleClass('active');
         $(e.target).toggleClass('active');
         $('#search-fav').attr('src',$(e.target).data('url').match(`+/https{0,1}:\/\/\S+\//+`)[0] + '/favicon.ico') ;
@@ -201,19 +198,11 @@ function renderHTML(index,seller) {
           var url = $('#sengine a.active').data('url');
           url = url.replace(`+/\$s/+`,$('#searchinput').val());
           window.open(url);
-      });
-      /* 鼠标聚焦时，回车事件 */
-      $("#searchinput").bind("keypress", function(){
-          if (event.keyCode == 13){
-          // 触发需要调用的方法
-          $(".search").click();
-          }
-      });
-      $('#menubtn').on('click', function (e) {
+      })
+      $('#menubtn').on('click', (e) => {
           $('#seller').modal('show');
-      });
+      })
     </script>
   </body>
-
   </html>`
 }
