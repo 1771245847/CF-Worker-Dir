@@ -1,33 +1,73 @@
-# Short-URL
+# CF-Worker-Dir
 
-极简风格
+CF-Worker-Dir是一款适用于Cloudflare Worker平台上的云函数程序，一分钟内搭建属于自己的导航页面
 
-将网址转换为https://t.cn/xxx类格式，失效请修改代码的api接口，代码中已有注释
+CF-Worker-Dir提供丰富的自定义配置
 
-Cloudflare Worker平台上的云函数程序
+# Cloudflare Worker安装
+ [Cloudflare Worker](https://workers.cloudflare.com/) 管理页面创建一个新的 **Worker** 
+Worker编辑页面左边粘贴 `index.js` 中的代码
+根据自身需要修改 `config` 的配置内容
 
-基于cloudflare的强大功能，无需服务器支撑即可建立短网址网页
+# 进阶安装
 
-教程：
+> 如何绑定自己的域名
+1. 根据上文快速安装完成，回到域名管理面板
+2. 点击 `Workers` 进入Workers管理页面
+3. 点击 `Add route` 设置新的路由
+4. `Route` 可以输入自己想使用的子域名，如果在根域名上使用直接把当前域名输入即可，`Worker` 选择上文快速安装好的Worker
+> `Route` 所使用的域名地址**必须已经解析好A记录**，如果没有能绑定的IP地址，可以输入8.8.8.8占位：）
 
-一个cloudflare账号
+## 系统配置
 
-拥有自己的域名，freenom免费申请
+CF-Worker-Dir允许用户自定义导航页面，配置内容如下：
+```
+const config = {
+  title: "自定义导航",                 //自定义网站标题
+  subtitle: "Cloudflare Workers Nav", //自定义网站副标题
+  logo_icon: "sitemap",               //选择网站logo icon 暂时只支持 (eg:https://semantic-ui.com/elements/icon.html)
+  hitokoto: true,                     //开启 一言 插件
+  search:true,                        //开启 搜索 功能  
+  search_engine:[                     //搜索引擎列表
+    {
+      name:"百度一下",                   //搜索引擎名称
+      template:"https://www.baidu.com/s?wd=$s"  //搜索引擎模板（含关键词$s）
+    }
+  ],
+  selling_ads: true,                  //是否要开启网址推广
+  sell_info:{
+    domain:"example.com",             //当前域名
+    price:500,                        //价格
+    mon_unit:"yen sign",              //货币单位 (eg:https://semantic-ui.com/elements/icon.html#computers)
+    contact:[                         //联系方式
+      {
+        type:"envelope",              //通讯工具 ("weixin","qq","telegram plane","envelope" or "phone")
+        content:"info@example.com"    //号码/地址
+      }
+    ]                        
+  },
+  lists: [                            //网址信息
+    {
+      name:"技术",                    //网址类别
+      icon:"code",                    //网址类别icon 暂时只支持 (eg:https://semantic-ui.com/elements/icon.html)
+      list:[
+        {
+          url:"https://oschina.net/", //网站url
+          name:"开源中国",             //网站名称
+          desc:"领先的中文开源技术社区" //网站描述
+        }
+      ]
+    }
+  ]
+}
+```
 
-正式部署
+## Todo
+- [ ] 模块化
+- [ ] 米表列表
+- [ ] 插件化（倒计时/一言/小工具）  
+- [ ] 国际化  
 
-一、创建 cloudflare workers
+## Licence
 
-如何创建 cloudflare-workers
-
-二、编辑 worker
-
-如何编辑 cloudflare-workers
-
-〔index.js〕复制 粘贴  cloudflare-worker
-
-三、绑定域名
-
-大功告成
-
-开源
+MIT
